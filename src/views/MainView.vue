@@ -1,6 +1,4 @@
-<template>
-  <div>hhhhhhdsd</div>
-</template>
+<template></template>
 
 <script setup>
 import { useRoute } from "vue-router";
