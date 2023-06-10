@@ -17,13 +17,24 @@
         <div class="center">
           <h2 class="register-title" ref="rt"><span>没有账号，去</span>注册</h2>
           <div class="input-box">
-            <input type="text" placeholder="电话号码" v-model="register.tel" />
-            <input type="password" placeholder="密码" />
-            <input type="password" placeholder="确认密码" />
-            <input type="text" placeholder="姓名" />
-            <input type="text" placeholder="地址" />
+            <input
+              type="text"
+              placeholder="电话号码"
+              v-model="registerInfo.tel"
+            />
+            <input
+              type="password"
+              placeholder="密码"
+              v-model="registerInfo.password"
+            />
+            <input type="text" placeholder="姓名" v-model="registerInfo.name" />
+            <input
+              type="text"
+              placeholder="地址"
+              v-model="registerInfo.address"
+            />
           </div>
-          <button>注册</button>
+          <button @click="register">注册</button>
         </div>
       </div>
     </div>
@@ -66,15 +77,23 @@ let loginInfo = reactive({
   password: "",
 });
 const login = () => {
-  router.push("/main");
   if (loginInfo.tel === "" || loginInfo.password === "") {
     alert("请输入完整的信息");
   } else {
     axios
-      .post("/client/login", loginInfo)
+      .post("client/login", loginInfo)
       .then((res) => {
-        console.log(res);
-        alert("登录成功");
+        if (res.data.error_message === "success") {
+          alert("登录成功");
+          router.push({
+            path: "/main",
+            query: {
+              tel: loginInfo.tel,
+            },
+          });
+        } else {
+          alert(res.data.error_message);
+        }
       })
       .catch((err) => {
         alert(err);
@@ -82,12 +101,38 @@ const login = () => {
   }
 };
 //注册
-let register = reactive({
+let registerInfo = reactive({
   tel: "",
   name: "",
   password: "",
   address: "",
 });
+const register = () => {
+  if (
+    registerInfo.name === "" ||
+    registerInfo.password === "" ||
+    registerInfo.address === "" ||
+    registerInfo.tel === ""
+  ) {
+    alert("请输入完整的信息");
+  } else {
+    axios
+      .post("client/register", registerInfo)
+      .then((res) => {
+        if (res.data.error_message === "success") {
+          alert("注册成功");
+          Object.keys(registerInfo).forEach((i) => {
+            registerInfo[i] = "";
+          });
+        } else {
+          alert(res.data.error_message);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+};
 </script>
 <style scoped>
 * {
