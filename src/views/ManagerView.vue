@@ -7,9 +7,9 @@
       @select="handleSelect"
       class="head-box"
     >
-      <div class="head-title">电商</div>
-      <el-menu-item index="1" class="menu-text">商品</el-menu-item>
-      <el-menu-item index="2" class="menu-text">订单记录</el-menu-item>
+      <div class="head-title">后台管理</div>
+      <el-menu-item index="1" class="menu-text">商品管理</el-menu-item>
+      <el-menu-item index="2" class="menu-text">商家管理</el-menu-item>
       <div class="flex-grow" />
       <el-sub-menu index="3" class="menu-text">
         <template #title>Workspace</template>
@@ -24,13 +24,9 @@
   </div>
 </template>
 
-<script setup>
-import { useRoute } from "vue-router";
-//用户登录信息
-const myRoute = useRoute().query;
-console.log(myRoute);
-</script>
-<style>
+<script setup></script>
+
+<style scoped>
 .back-box {
   position: absolute;
   inset: 0px;

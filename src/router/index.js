@@ -14,7 +14,28 @@ const routes = [
   {
     path: "/main",
     name: "main",
+    redirect: "/buy",
     component: () => import("../views/MainView.vue"),
+    children: [
+      {
+        path: "/buy",
+        name: "buy",
+        component: () => import("../components/client/BuyView.vue"),
+      },
+    ],
+  },
+  {
+    path: "/manager",
+    name: "manager",
+    redirect: "/commodity",
+    component: () => import("../views/ManagerView.vue"),
+    children: [
+      {
+        path: "/commodity",
+        name: "commodity",
+        component: () => import("../components/manager/CommodityView.vue"),
+      },
+    ],
   },
 ];
 

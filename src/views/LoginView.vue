@@ -85,12 +85,21 @@ const login = () => {
       .then((res) => {
         if (res.data.error_message === "success") {
           alert("登录成功");
-          router.push({
-            path: "/main",
-            query: {
-              tel: loginInfo.tel,
-            },
-          });
+          if (loginInfo.tel === "0000") {
+            router.push({
+              path: "/manager",
+              query: {
+                tel: loginInfo.tel,
+              },
+            });
+          } else {
+            router.push({
+              path: "/main",
+              query: {
+                tel: loginInfo.tel,
+              },
+            });
+          }
         } else {
           alert(res.data.error_message);
         }
