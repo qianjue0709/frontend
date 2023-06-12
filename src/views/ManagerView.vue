@@ -12,7 +12,7 @@
       <el-menu-item index="2" class="menu-text">商家管理</el-menu-item>
       <div class="flex-grow" />
       <el-sub-menu index="3" class="menu-text">
-        <template #title>Workspace</template>
+        <template #title>用户</template>
         <el-menu-item index="2-1">item one</el-menu-item>
         <el-menu-item index="2-2">item two</el-menu-item>
         <el-menu-item index="2-3">item three</el-menu-item>

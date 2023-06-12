@@ -13,8 +13,8 @@
       <div class="flex-grow" />
       <el-sub-menu index="3" class="menu-text">
         <template #title>Workspace</template>
-        <el-menu-item index="2-1">item one</el-menu-item>
-        <el-menu-item index="2-2">item two</el-menu-item>
+        <el-menu-item index="2-1">个人信息</el-menu-item>
+        <el-menu-item index="2-2">退出登录</el-menu-item>
         <el-menu-item index="2-3">item three</el-menu-item>
       </el-sub-menu>
     </el-menu>
@@ -33,7 +33,7 @@ console.log(myRoute);
 <style>
 .back-box {
   position: absolute;
-  inset: 0px;
+  inset: 0;
 }
 .head-box {
   height: 67px;
