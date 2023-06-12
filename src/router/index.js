@@ -35,6 +35,15 @@ const routes = [
         name: "commodity",
         component: () => import("../components/manager/CommodityView.vue"),
       },
+      {
+        path: "/brand",
+        name: "brand",
+        component: ()=>import("../components/manager/BrandView.vue"),
+      },
+      {
+        path: "/supplier",
+        name: "supplier",
+      }
     ],
   },
 ];

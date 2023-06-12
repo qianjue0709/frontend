@@ -244,7 +244,7 @@ const register = () => {
   cursor: pointer;
   opacity: 1;
   visibility: visible;
-  transition: 0.3 ease;
+  transition: 0.3s ease;
 }
 .login-box button:hover {
   background-color: rgba(0, 0, 0, 0.3);

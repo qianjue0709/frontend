@@ -1,21 +1,21 @@
 <template>
   <div class="back-box">
     <el-menu
-      :default-active="activeIndex"
-      mode="horizontal"
-      :ellipsis="false"
-      @select="handleSelect"
-      class="head-box"
+        default-active="commodity"
+        mode="horizontal"
+        :ellipsis="false"
+        @select="handleSelect"
+        class="head-box"
+        router
     >
       <div class="head-title">后台管理</div>
-      <el-menu-item index="1" class="menu-text">商品管理</el-menu-item>
-      <el-menu-item index="2" class="menu-text">商家管理</el-menu-item>
+      <el-menu-item index="commodity" class="menu-text">商品管理</el-menu-item>
+      <el-menu-item index="brand" class="menu-text">品牌管理</el-menu-item>
+      <el-menu-item index="supplier" class="menu-text">商家管理</el-menu-item>
       <div class="flex-grow" />
       <el-sub-menu index="3" class="menu-text">
         <template #title>用户</template>
-        <el-menu-item index="2-1">item one</el-menu-item>
-        <el-menu-item index="2-2">item two</el-menu-item>
-        <el-menu-item index="2-3">item three</el-menu-item>
+        <el-menu-item index="login">退出登录</el-menu-item>
       </el-sub-menu>
     </el-menu>
     <div class="content-box">
@@ -24,7 +24,8 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+</script>
 
 <style scoped>
 .back-box {
@@ -47,11 +48,9 @@
 .content-box {
   padding-top: 20px;
   position: absolute;
+  width: 100%;
   display: flex;
-  top: 67px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  min-height: 662px;
 }
 .menu-text {
   font-size: 18px;

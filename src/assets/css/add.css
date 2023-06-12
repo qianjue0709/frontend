@@ -1,0 +1,11 @@
+.add-div{
+    width: 100px;
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+}
+.add-input{
+    height: 30px;
+    width: 60%;
+    margin-bottom: 10px;
+}
