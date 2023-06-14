@@ -1,8 +1,21 @@
 <template>
   <div class="center-box" >
-    <div class="card-box" v-for="(i) in a" :key="i">
-      <img src="https://ts1.cn.mm.bing.net/th/id/R-C.466bb61cd7cf4e8b7d9cdf645add1d6e?rik=YRZKRLNWLutoZA&riu=http%3a%2f%2f222.186.12.239%3a10010%2fwmxs_161205%2f002.jpg&ehk=WEy01YhyfNzzQNe1oIqxwgbTnzY7dMfmZZHkqpZB5WI%3d&risl=&pid=ImgRaw&r=0">
-      <div class="text">hhh</div>
+    <div class="card-box" v-for="(i,index) in listBrand" :key="index">
+      <img :src="i.bpicture">
+      <div class="buttom-box">
+        <div class="text">{{i.bname}}</div>
+        <el-button type="primary" round class="my-url">
+          <a :href="i.url" target="_blank"
+             style="color: white;text-decoration-line: none">进入官网</a>
+        </el-button>
+        <div style="width: 100%;text-align: right;height: 30px;">
+          <edit-two style="margin-right: 5px;cursor: pointer" theme="outline" size="24" fill="#ffe008" />
+          <delete  style="cursor: pointer"
+                   theme="outline" size="24" fill="#fa1951" @click="deleteBrand(i.bname)"/>
+        </div>
+
+      </div>
+
     </div>
     <div class="add-box">
       <div class="add" @click="addView = true"></div>
@@ -14,6 +27,8 @@
       <el-input class="add-input" v-model="brand.bname"  clearable />
       <div class="add-div">品牌图片</div>
       <el-input class="add-input" v-model="brand.bpicture"  clearable />
+      <div class="add-div">品牌网址</div>
+      <el-input class="add-input" v-model="brand.url"  clearable />
     </div>
 
     <template #footer>
@@ -26,14 +41,34 @@
 </template>
 
 <script setup>
+import {EditTwo,Delete} from "@icon-park/vue-next";
 import {reactive, ref} from "vue";
 import axios from "axios";
+import {ElMessage, ElMessageBox} from "element-plus";
 // 获取全部品牌
-let  a = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+let listBrand =reactive([]);
+const getAll=()=>{
+  axios.post("/brand/getAll")
+      .then(res=>{
+        listBrand.length = 0;
+        for (let i = 0; i < res.data.length; i++) {
+          listBrand.push({
+            bname: res.data[i].bname,
+            bpicture: res.data[i].bpicture,
+            url: res.data[i].url
+          })
+        }
+      })
+      .catch(err=>{
+        alert(err);
+      });
+}
+getAll()
 // 增加品牌
 let brand = reactive({
   bname: "",
   bpicture: "",
+  url:"",
 });
 let addView = ref(false);
 const addBrand=()=>{
@@ -46,8 +81,17 @@ const addBrand=()=>{
   }else {
     axios.post("/brand/add",brand)
         .then(res=>{
-          console.log(res.data);
-          alert(res.data.error_message);
+          if (res.data.error_message === 'success')
+          {
+            ElMessage({
+              message: '添加成功',
+              type: 'success',
+            })
+            getAll();
+            Object.keys(brand).forEach((i)=>{
+              brand[i] = "";
+            })
+          }
         })
         .catch(err=>{
           alert(err.data);
@@ -55,6 +99,41 @@ const addBrand=()=>{
 
   }
 };
+
+//删除品牌
+const deleteBrand=(bname)=>{
+  ElMessageBox.confirm(
+      '你确定想删除这个品牌吗',
+      '提示',
+      {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        axios.post("/brand/delete",{bname:bname})
+            .then(res=>{
+              if (res.data.error_message === 'success')
+              {
+                ElMessage({
+                  message: '删除成功',
+                  type: 'success',
+                })
+                getAll();
+              }
+            })
+            .catch(err=>{
+              alert(err.data);
+            });
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '已取消',
+        })
+      })
+}
 </script>
 
 <style scoped>
@@ -65,28 +144,46 @@ const addBrand=()=>{
   flex-wrap: wrap;
   align-content: start;
   margin: 10px auto;
-  width: 80%;
+  width: 84%;
   min-height: auto;
 }
 .card-box{
+  padding: 5px;
   width: 200px;
-  height: 250px;
+  min-height: 250px;
   background-color: white;
+  border: 1px solid var(--el-border-color);
+  border-radius: 15px;
+  box-shadow: var(--el-box-shadow-light);
   margin-top: 20px;
   margin-left: 37px;
   margin-bottom: 10px;
 }
 img{
   width: 100%;
-  height: 80%;
+  height: 200px;
+  border-radius: 15px;
 }
-.text{
+.buttom-box{
   line-height: 20px;
   text-align: center;
   width: 100%;
-  height: 20%;
-  background-color: azure;
+  min-height: 50px;
 }
+.my-url{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 30px;
+  width: 50%;
+}
+.text{
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+  height: 40%;
+}
+
 .add-box{
   width: 200px;
   height: 250px;
